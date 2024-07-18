@@ -13,8 +13,8 @@ const ScanScreen = () => {
   const rt = useRouter();
 
   const { onUpload } = useUpload();
-  const handleUpload = () => {
-    onUpload();
+  const handleUpload = async () => {
+    await onUpload();
   }
 
   const handleCapture = async () => {
