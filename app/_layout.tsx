@@ -2,6 +2,7 @@ import 'react-native-reanimated';
 
 
 import * as SplashScreen from 'expo-splash-screen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
@@ -36,32 +37,34 @@ export default function DrawerLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Drawer drawerContent={CustomDrawerContent}>
-          <Drawer.Screen name="scan" options={{
-            title: 'Scan',    
-          }} />
-          <Drawer.Screen name="preview" options={{
-            title: 'Preview Image',
-          }} />
-          <Drawer.Screen name="index" options={{
-            title: 'History',
-          }} />
-        </Drawer>
-      </GestureHandlerRootView>
-    </ThemeProvider>
-
+    <SafeAreaProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Drawer drawerContent={CustomDrawerContent}>
+            <Drawer.Screen name="scan" options={{
+              title: 'Scan',
+            }} />
+            <Drawer.Screen name="preview" options={{
+              title: 'Preview Image',
+            }} />
+            <Drawer.Screen name="index" options={{
+              title: 'History',
+            }} />
+          </Drawer>
+        </GestureHandlerRootView>
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
-  
+
 
   const { onUpload } = useUpload();
   const { onShare } = useShare();
 
   return (
+
     <DrawerContentScrollView {...props}>
       <DrawerItem
         label="Scan"
