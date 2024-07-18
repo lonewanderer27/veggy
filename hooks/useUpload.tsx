@@ -20,7 +20,7 @@ export default function useUpload() {
         })
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   }
 
