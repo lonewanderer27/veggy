@@ -5,11 +5,9 @@ import { ThemedView } from '@/components/ThemedView'
 
 const HistoryScreen = () => {
   return (
-    <>
-      <ThemedView style={styles.container}>
-        <Text style={{ textAlign: 'center' }}>History</Text>
-      </ThemedView>
-    </>
+    <ThemedView style={styles.container}>
+      <Text style={{ textAlign: 'center' }}>History</Text>
+    </ThemedView>
   )
 }
 

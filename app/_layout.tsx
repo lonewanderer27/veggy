@@ -1,6 +1,6 @@
 import 'react-native-reanimated';
 
-import * as ImagePicker from 'expo-image-picker';
+
 import * as SplashScreen from 'expo-splash-screen';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
@@ -9,10 +9,12 @@ import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem, Drawe
 import { Drawer } from 'expo-router/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
-import { Share } from 'react-native';
+
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
+import useUpload from '@/hooks/useUpload';
+import useShare from '@/hooks/useShare';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -38,7 +40,10 @@ export default function DrawerLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Drawer drawerContent={CustomDrawerContent}>
           <Drawer.Screen name="scan" options={{
-            title: 'Scan',
+            title: 'Scan',    
+          }} />
+          <Drawer.Screen name="preview" options={{
+            title: 'Preview Image',
           }} />
           <Drawer.Screen name="index" options={{
             title: 'History',
@@ -51,28 +56,10 @@ export default function DrawerLayout() {
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
-  const handleShare = async () => {
-    console.log('Share')
-    try {
-      await Share.share({
-        message: "I'm using Veriluxe Louis Vuitton Authentication app, the fastest and reliable bag authenticator. Try it NOW! https://play.google.com/store/apps/details?id=com.veriluxe.scan",
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  
 
-  const handleUpload = async () => {
-    console.log('Upload File')
-    try {
-      await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        quality: 1,
-      })
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const { onUpload } = useUpload();
+  const { onShare } = useShare();
 
   return (
     <DrawerContentScrollView {...props}>
@@ -87,7 +74,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       <DrawerItem
         label="Upload File"
         icon={() => <Ionicons name="cloud-upload-outline" size={25} />}
-        onPress={handleUpload}
+        onPress={onUpload}
       />
       <DrawerItem
         label="History"
@@ -100,7 +87,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       <DrawerItem
         label="Share"
         icon={() => <Ionicons name="share-social-outline" size={25} />}
-        onPress={handleShare}
+        onPress={onShare}
       />
     </DrawerContentScrollView>
   )
