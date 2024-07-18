@@ -13,9 +13,6 @@ const ScanScreen = () => {
   const rt = useRouter();
 
   const { onUpload } = useUpload();
-  const handleUpload = async () => {
-    await onUpload();
-  }
 
   const handleCapture = async () => {
     if (cameraRef.current) {
@@ -56,7 +53,7 @@ const ScanScreen = () => {
           icon={{ name: "photo", color: "white" }}
           placement="left"
           style={{ padding: 10 }}
-          onPress={handleUpload}
+          onPress={onUpload}
         />
         <FAB
           icon={{ name: "camera", color: "white" }}  
