@@ -1,28 +1,58 @@
-import { ThemedView } from "@/components/ThemedView"
-import { useGlobalSearchParams } from "expo-router"
-import { StyleSheet } from "react-native"
-import { Image, Text } from "react-native"
+import { ThemedView } from "@/components/ThemedView";
+import { useGlobalSearchParams, useRouter } from "expo-router";
+import { StyleSheet } from "react-native";
+import { Image, ToastAndroid, View, Platform, Alert } from "react-native";
+import { Button } from "@rneui/themed";
 
 const PreviewScreen = () => {
   const glob = useGlobalSearchParams();
-  const decodedUri = decodeURIComponent(glob.imageUri+"");
-  console.log("decodedUri: "+decodedUri);
+  const decodedUri = decodeURIComponent(glob.imageUri + "");
+  console.log("decodedUri: " + decodedUri);
+
+  const rt = useRouter();
+
+  const handleDiscard = () => {
+    console.log("Discard Image");
+
+    rt.push({
+      pathname: "/scan",
+    });
+  }
+
+  const handleProcess = () => {
+    if (Platform.OS === "android") {
+      ToastAndroid.show("Not Implemented Yet", ToastAndroid.SHORT);
+    } 
+
+    if (Platform.OS === "ios") {
+      Alert.alert("Not Implemented Yet");
+    }
+  }
 
   return (
     <ThemedView style={styles.container}>
-      <Image 
+      <Image
         style={styles.imagePreview}
-        source={{ 
-        uri: decodedUri }}
+        source={{
+          uri: decodedUri,
+        }}
         onLoad={() => console.log("Image Loaded")}
         onError={(error) => {
-          console.log("Image Error")
-          console.log(error )  
-        }}  
+          console.log("Image Error");
+          console.log(error);
+        }}
       />
+      <View style={styles.buttonsContainer}>
+        <View style={{ ...styles.buttonContainer, paddingRight: 10 }}>
+          <Button onPress={handleDiscard} title="Discard" buttonStyle={{ borderRadius: 5, padding: 10 }} uppercase />
+        </View>
+        <View style={{ ...styles.buttonContainer, paddingLeft: 10 }}>   
+          <Button onPress={handleProcess} title="Scan" buttonStyle={{ borderRadius: 5, padding: 10 }} uppercase />
+        </View>
+      </View>
     </ThemedView>
-  ) 
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +60,18 @@ const styles = StyleSheet.create({
   },
   imagePreview: {
     flex: 1,
+  },
+  buttonsContainer: {
+    backgroundColor: 'transparent',
+    flexDirection: "row",
+    position: "absolute",
+    bottom: 0,
+    marginBottom: 20
+  },
+  buttonContainer: {
+    flex: 1,
+    padding: 20
   }
-})    
+});
 
 export default PreviewScreen;
