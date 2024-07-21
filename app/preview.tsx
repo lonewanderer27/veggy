@@ -1,21 +1,27 @@
 import { ThemedView } from "@/components/ThemedView"
 import { useGlobalSearchParams } from "expo-router"
 import { StyleSheet } from "react-native"
-import { Image } from "react-native"
+import { Image, Text } from "react-native"
 
 const PreviewScreen = () => {
   const glob = useGlobalSearchParams();
-  console.log(glob.imageUri)
+  const decodedUri = decodeURIComponent(glob.imageUri+"");
+  console.log("decodedUri: "+decodedUri);
 
   return (
     <ThemedView style={styles.container}>
       <Image 
         style={styles.imagePreview}
-        source={{
-        uri: glob.imageUri!+""}}
+        source={{ 
+        uri: decodedUri }}
+        onLoad={() => console.log("Image Loaded")}
+        onError={(error) => {
+          console.log("Image Error")
+          console.log(error )  
+        }}  
       />
     </ThemedView>
-  )
+  ) 
 }
 
 const styles = StyleSheet.create({
@@ -23,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imagePreview: {
-    flex: 1
+    flex: 1,
   }
 })    
 
