@@ -1,15 +1,16 @@
 import * as FileSystem from "expo-file-system";
 
-import { Button, Text } from "react-native";
+import { Button, Icon } from "@rneui/themed";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import React, { useRef } from "react";
+import { Stack, useRouter } from "expo-router";
 
 import { FAB } from "@rneui/themed";
 import { Platform } from "react-native";
 import { StyleSheet } from "react-native";
+import { Text } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { useMediaLibraryPermissions } from "expo-image-picker";
-import { useRouter } from "expo-router";
 import useUpload from "@/hooks/useUpload";
 
 const ScanScreen = () => {
@@ -65,60 +66,77 @@ const ScanScreen = () => {
   if (!camPerm) {
     // Camera permissions are still loading.
     return (
-      <ThemedView style={styles.container}>
-        <Text style={{ textAlign: "center" }}>Camera Loading...</Text>
-      </ThemedView>
+      <>
+        <Stack.Screen options={{ headerShown: false }} />
+        <ThemedView
+          style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
+        >
+          <Button type="clear" loading />
+          <Text
+            style={{
+              textAlign: "center",
+              padding: 15,
+              fontSize: 22,
+              marginTop: 10,
+            }}
+          >
+            Camera Loading...
+          </Text>
+        </ThemedView>
+      </>
     );
   }
 
   if (!camPerm.granted) {
     // Camera permissions are not granted yet.
-    return (
-      <ThemedView style={styles.permissionContainer}>
-        <Text style={{ textAlign: "center", padding: 12 }}>
-          We need your permission to show the camera
-        </Text>
-        <Button onPress={reqCamPerm} title="grant permission" />
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <ThemedView
+        style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
+      >
+        <ThemedView style={styles.permissionContainer}>
+          <Icon name="camera" size={70} />
+          <Text style={{ textAlign: "center", padding: 12, fontSize: 22 }}>
+            We need your permission to show the camera
+          </Text>
+          <Button
+            buttonStyle={{ borderRadius: 10, padding: 15, marginTop: 10 }}
+            onPress={reqCamPerm}
+            title="grant permission"
+            uppercase
+          />
+        </ThemedView>
       </ThemedView>
-    );
+    </>;
   }
 
-  // if (!mediaPerm.granted) {
-  //   // Media permissions are not granted yet.
-  //   return (
-  //     <ThemedView style={styles.permissionContainer}>
-  //       <Text style={{ textAlign: "center", padding: 12 }}>
-  //         We need your permission to access media library
-  //       </Text>
-  //       <Button onPress={reqMediaPerm} title="grant permission" />
-  //     </ThemedView>
-  //   );
-  // }
-
+  // Camera permission has been granted and camera has loaded!
   return (
-    <ThemedView style={styles.container}>
-      <CameraView style={styles.camera} facing="back" ref={cameraRef}>
-        <FAB
-          icon={{ name: "photo", color: "white" }}
-          placement="left"
-          style={{ padding: 10 }}
-          onPress={onUpload}
-        />
-        <FAB
-          icon={{ name: "camera", color: "white" }}
-          style={{ paddingBottom: 10, left: 0 }}
-          placement="right"
-          onPress={handleCapture}
-        />
-      </CameraView>
-    </ThemedView>
+    <>
+      <Stack.Screen options={{ headerShown: true }} />
+      <ThemedView style={styles.container}>
+        <CameraView style={styles.camera} facing="back" ref={cameraRef}>
+          <FAB
+            icon={{ name: "photo", color: "white" }}
+            placement="left"
+            style={{ padding: 10 }}
+            onPress={onUpload}
+          />
+          <FAB
+            icon={{ name: "camera", color: "white" }}
+            style={{ paddingBottom: 10, left: 0 }}
+            placement="right"
+            onPress={handleCapture}
+          />
+        </CameraView>
+      </ThemedView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   permissionContainer: {
-    flex: 1,
-    padding: 24,
+    padding: 30,
   },
   container: {
     flex: 1,
