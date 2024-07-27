@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "veggy",
+    "name": "Veriluxe Scan",
     "slug": "veggy",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,7 +19,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.veriluxe.scan"
     },
     "web": {
       "bundler": "metro",
@@ -39,6 +44,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3f199165-d7b7-4066-bd00-7a3f0b3f61ac"
+      }
     }
   }
 }
