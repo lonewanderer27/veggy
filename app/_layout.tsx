@@ -1,7 +1,6 @@
 import "react-native-reanimated";
 
 import * as SplashScreen from "expo-splash-screen";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import {
   DarkTheme,
@@ -18,12 +17,12 @@ import {
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import useUpload from "@/hooks/useUpload";
 import useShare from "@/hooks/useShare";
+import useUpload from "@/hooks/useUpload";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -49,12 +48,6 @@ export default function DrawerLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Drawer drawerContent={CustomDrawerContent}>
           <Drawer.Screen
-            name="scan"
-            options={{
-              title: "Scan",
-            }}
-          />
-          <Drawer.Screen
             name="preview"
             options={{
               headerShown: false,
@@ -63,7 +56,7 @@ export default function DrawerLayout() {
           <Drawer.Screen
             name="index"
             options={{
-              title: "History",
+              title: "Scan",
             }}
           />
         </Drawer>
@@ -83,21 +76,13 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         icon={() => <Ionicons name="scan" size={25} />}
         onPress={() => {
           console.log("Scan Page");
-          props.navigation.navigate("scan");
+          props.navigation.navigate("index");
         }}
       />
       <DrawerItem
         label="Upload File"
         icon={() => <Ionicons name="cloud-upload-outline" size={25} />}
         onPress={onUpload}
-      />
-      <DrawerItem
-        label="History"
-        icon={() => <Ionicons name="newspaper-outline" size={25} />}
-        onPress={() => {
-          props.navigation.navigate("index");
-          console.log("History Page");
-        }}
       />
       <DrawerItem
         label="Share"

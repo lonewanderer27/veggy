@@ -1,8 +1,9 @@
-import { ThemedView } from "@/components/ThemedView";
+import { Alert, Image, Platform, ToastAndroid, View } from "react-native";
 import { useGlobalSearchParams, useRouter } from "expo-router";
-import { StyleSheet } from "react-native";
-import { Image, ToastAndroid, View, Platform, Alert } from "react-native";
+
 import { Button } from "@rneui/themed";
+import { StyleSheet } from "react-native";
+import { ThemedView } from "@/components/ThemedView";
 
 const PreviewScreen = () => {
   const glob = useGlobalSearchParams();
@@ -15,7 +16,7 @@ const PreviewScreen = () => {
     console.log("Discard Image");
 
     rt.push({
-      pathname: "/scan",
+      pathname: "/",
     });
   }
 
