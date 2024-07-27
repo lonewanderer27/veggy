@@ -13,21 +13,32 @@ const PreviewScreen = () => {
   const rt = useRouter();
 
   const handleDiscard = () => {
-    console.log("Discard Image");
-
     rt.push({
-      pathname: "/",
+      pathname: "/"
     });
+    console.log("Discard Image"); 
   }
 
   const handleProcess = () => {
-    if (Platform.OS === "android") {
-      ToastAndroid.show("Not Implemented Yet", ToastAndroid.SHORT);
-    } 
+    // if (Platform.OS === "android") {
+    //   ToastAndroid.show("Not Implemented Yet", ToastAndroid.SHORT);
+    // } 
 
-    if (Platform.OS === "ios") {
-      Alert.alert("Not Implemented Yet");
-    }
+    // if (Platform.OS === "ios") {
+    //   Alert.alert("Not Implemented Yet");
+    // }
+
+    // TODO: Pass the data to the model and get the result
+
+    // encode the Uri again
+    const encodedUri = encodeURI(decodedUri);
+
+    rt.push({
+      pathname: "/result",
+      params: {
+        imageUri: encodedUri
+      }
+    })
   }
 
   return (
@@ -71,7 +82,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    padding: 20
+    padding: 30
   }
 });
 

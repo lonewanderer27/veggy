@@ -59,6 +59,12 @@ export default function DrawerLayout() {
               title: "Scan",
             }}
           />
+          <Drawer.Screen
+            name="result"
+            options={{
+              headerShown: false,
+            }}
+          />
         </Drawer>
       </GestureHandlerRootView>
     </ThemeProvider>
